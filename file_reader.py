@@ -1,46 +1,43 @@
+
 import csv
 
-
-def read_edge_weights(file_path, graph):
+def read_edge_weights(file_name, graph):
     try:
-        with open(file_path, 'r') as file:
-            csv_reader = csv.reader(file)
-            next(csv_reader)  # Skip the header row
-            for row in csv_reader:
-                node1_id = int(row[0])
-                node2_id = int(row[1])
-                weight = float(row[2])
+        with open(file_name, 'r') as file:
+            reader = csv.reader(file)
+            next(reader)  # Skip the header row
+            for row in reader:
+                node1_id, node2_id, weight = int(row[0]), int(row[1]), float(row[2])
                 graph.add_edge(node1_id, node2_id, weight)
         return True
     except Exception as e:
-        print(f"Error reading edge weights file: {e}")  # Debug print
+        print(f"Error reading edge weights file: {e}")
         return False
 
 
-def read_heuristic(file_path):
+def read_heuristic(file_name):
     heuristic_values = {}
     try:
-        with open(file_path, 'r') as file:
-            csv_reader = csv.reader(file)
-            # Skip the initial rows that do not contain heuristic values
+        with open(file_name, 'r') as file:
+            reader = csv.reader(file)
+            # Skip the initial rows containing headers or empty cells
             for _ in range(4):
-                next(csv_reader)
+                next(reader)
             
-            # Read the first row that contains heuristic values to get
-            # the list of node IDs (excluding the first cell)
-            node_ids = [int(value) for value in next(csv_reader)[1:] if value.isdigit()]
-            
-            # Read each subsequent row
-            for row in csv_reader:
-                if row[0].isdigit():  # Skip rows with non-numeric first cells
-                    node1_id = int(row[0])
-                    for i, heuristic_value in enumerate(row[1:]):
-                        # Skip non-numeric cells and avoid index out of range
-                        if i < len(node_ids) and heuristic_value.replace('.', '', 1).isdigit():
-                            node2_id = node_ids[i]
-                            heuristic_value = float(heuristic_value)
-                            heuristic_values[(node1_id, node2_id)] = heuristic_value
+            node_ids = [int(float(value)) if is_float(value) else None for value in next(reader)[1:]]
+            for row in reader:
+                node1_id = int(float(row[0])) if is_float(row[0]) else None
+                for node2_id, value in zip(node_ids, row[1:]):
+                    if node1_id is not None and node2_id is not None and value and is_float(value):
+                        heuristic_values[(node1_id, node2_id)] = float(value)
         return heuristic_values
     except Exception as e:
-        print(f"Error reading heuristic file: {e}")  # Debug print
+        print(f"Error reading heuristic file: {e}")
         return None
+
+def is_float(value):
+    try:
+        float(value)
+        return True
+    except:
+        return False
