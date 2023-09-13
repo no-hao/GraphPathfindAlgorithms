@@ -1,4 +1,3 @@
-
 def get_user_inputs():
     while True:
         try:

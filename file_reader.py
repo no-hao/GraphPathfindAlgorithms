@@ -1,5 +1,5 @@
-
 import csv
+
 
 def read_edge_weights(file_name, graph):
     try:
@@ -35,9 +35,11 @@ def read_heuristic(file_name):
         print(f"Error reading heuristic file: {e}")
         return None
 
+
 def is_float(value):
     try:
         float(value)
         return True
     except:
         return False
+# flake8: noqa

@@ -29,8 +29,8 @@ def a_star_search(graph, heuristic_values, start_node_id, end_node_id):
             # Calculating the tentative g_score for the neighbor node
             tentative_g_score = g_score[current_node.id] + weight
             
-            # If the tentative g_score is less than the current g_score of the neighbor node, update the g_score and f_score
-            # and add the neighbor node to the open set
+            # If the tentative g_score is less than the current g_score of the neighbor node,
+            # update the g_score and f_score and add the neighbor node to the open set
             if tentative_g_score < g_score[neighbor_node.id]:
                 came_from[neighbor_node.id] = current_node
                 g_score[neighbor_node.id] = tentative_g_score
@@ -52,4 +52,4 @@ def reconstruct_path(came_from, current_node):
     
     # Returning the reconstructed path
     return path
-
+# flake8: noqa

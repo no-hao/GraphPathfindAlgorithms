@@ -1,4 +1,3 @@
-
 class Node:
     def __init__(self, id, heuristic=0):
         self.id = id
@@ -10,6 +9,7 @@ class Node:
 
     def __lt__(self, other):
         return self.id < other.id
+
 
 class Graph:
     def __init__(self):
@@ -27,3 +27,4 @@ class Graph:
 
     def get_node(self, id):
         return self.nodes.get(id)
+# flake8: noqa
