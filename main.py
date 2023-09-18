@@ -1,15 +1,12 @@
+
 from graph import Graph
-from a_star import a_star_search
 from file_reader import read_edge_weights, read_heuristic
+from a_star import a_star_search
+from ida_star import ida_star_search
 from user_input import get_user_inputs
 
-
 def main():
-    user_inputs = get_user_inputs()
-    if not user_inputs:
-        return
-    edge_weights_file, heuristic_file, start_node_id, end_node_id = user_inputs
-
+    edge_weights_file, heuristic_file, start_node_id, end_node_id, algorithm = get_user_inputs()
     graph = Graph()
     if not read_edge_weights(edge_weights_file, graph):
         print("Error reading edge weights file")
@@ -20,8 +17,13 @@ def main():
         print("Error reading heuristic file")
         return
 
-    path, cost = a_star_search(graph, heuristic_values, start_node_id, end_node_id)
-    print(f"A* minimum cost path\n[{cost}] {' – '.join(map(str, path)) if path else 'No path found'}")
+    if algorithm == 'a*' or algorithm == 'both':
+        path, cost = a_star_search(graph, heuristic_values, start_node_id, end_node_id)
+        print(f"A* minimum cost path\n[{cost}] {' – '.join(map(str, path)) if path else 'No path found'}")
+    
+    if algorithm == 'ida*' or algorithm == 'both':
+        path, cost = ida_star_search(graph, heuristic_values, start_node_id, end_node_id)
+        print(f"IDA* minimum cost path\n[{cost}] {' – '.join(map(str, path)) if path else 'No path found'}")
 
 
 if __name__ == "__main__":
