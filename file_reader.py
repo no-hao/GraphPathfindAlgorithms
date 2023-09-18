@@ -21,25 +21,25 @@ def read_heuristic(file_name):
         with open(file_name, 'r') as file:
             reader = csv.reader(file)
             # Skip the initial rows containing headers or empty cells
-            for _ in range(4):
+            for _ in range(6):
                 next(reader)
-            
-            node_ids = [int(float(value)) if is_float(value) else None for value in next(reader)[1:]]
+
+            # Read the 'TO' node IDs from row 7 (indexing starts from 0)
+            to_node_ids = [int(value) for value in next(reader)[1:] if value and value.strip()]
+
+            # Read the 'FROM' node IDs and the heuristic values from row 8 onwards
             for row in reader:
-                node1_id = int(float(row[0])) if is_float(row[0]) else None
-                for node2_id, value in zip(node_ids, row[1:]):
-                    if node1_id is not None and node2_id is not None and value and is_float(value):
-                        heuristic_values[(node1_id, node2_id)] = float(value)
+                if row and row[0].strip():
+                    from_node_id = int(row[0])
+                    for to_node_id, value in zip(to_node_ids, row[1:]):
+                        if value and value.strip():
+                            value_float = float(value)
+                            heuristic_values[(from_node_id, to_node_id)] = value_float
+                            # Adding the symmetric value to the dictionary if it is not already present
+                            if from_node_id != to_node_id and (to_node_id, from_node_id) not in heuristic_values:
+                                heuristic_values[(to_node_id, from_node_id)] = value_float
         return heuristic_values
     except Exception as e:
         print(f"Error reading heuristic file: {e}")
         return None
-
-
-def is_float(value):
-    try:
-        float(value)
-        return True
-    except:
-        return False
 # flake8: noqa
