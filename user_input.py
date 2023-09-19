@@ -1,4 +1,3 @@
-
 def get_user_inputs():
     edge_weights_file = input("Please enter the edge weight file name and extension: ")
     heuristic_file = input("Please enter the heuristic file name and extension: ")

@@ -1,6 +1,6 @@
-
 from graph import Graph
 from file_reader import read_heuristic
+
 
 # Define the recursive depth-first search function for IDA*
 def ida_star_dfs(graph, heuristic_values, current_node, goal_node_id, current_cost, cost_limit, path):
@@ -37,26 +37,23 @@ def ida_star_dfs(graph, heuristic_values, current_node, goal_node_id, current_co
     # If no solution is found, return None and the minimum cost that exceeds the cost limit
     return None, min_exceeding_cost
 
+
 # Define the main IDA* function
 def ida_star_search(graph, heuristic_values, start_node_id, goal_node_id):
     # Initialize the cost limit to the heuristic cost from the start node to the goal node
     cost_limit = heuristic_values.get((start_node_id, goal_node_id), 0)
     
     while True:
-        # Display the current cost limit
-        print(f"Current cost limit: {cost_limit:.2f}")
-        
-        # Perform the IDA* depth-first search with the current cost limit
+        print(f"Current cost limit: {cost_limit:.2f}")  # Print the current cost limit with two decimal places to show the deepening process
         path, new_cost_limit = ida_star_dfs(graph, heuristic_values, graph.get_node(start_node_id), goal_node_id, 0, cost_limit, [start_node_id])
-        
+
         # If a solution is found, return the path and the cost
         if path:
             return path, new_cost_limit
-        
+
         # If no solution is found and the new cost limit is infinity, return "No path found"
         if new_cost_limit == float('inf'):
             return None, new_cost_limit
-        
+
         # Update the cost limit to the new cost limit for the next iteration
         cost_limit = new_cost_limit
-# flake8: noqa
