@@ -5,7 +5,8 @@ def get_user_inputs():
     while True:
         try:
             start_node_id = input("Start node (1 – 200): ")
-            if int(start_node_id) < 1 or int(start_node_id) > 200:
+            start_node_id_int = int(start_node_id)
+            if start_node_id_int < 1 or start_node_id_int > 200:
                 raise ValueError("Node ID out of range")
             break
         except ValueError as e:
@@ -14,7 +15,8 @@ def get_user_inputs():
     while True:
         try:
             end_node_id = input("End node (1 – 200): ")
-            if int(end_node_id) < 1 or int(end_node_id) > 200:
+            end_node_id_int = int(end_node_id)
+            if end_node_id_int < 1 or end_node_id_int > 200:
                 raise ValueError("Node ID out of range")
             break
         except ValueError as e:
