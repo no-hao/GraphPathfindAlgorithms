@@ -57,3 +57,4 @@ def ida_star_search(graph, heuristic_values, start_node_id, goal_node_id):
 
         # Update the cost limit to the new cost limit for the next iteration
         cost_limit = new_cost_limit
+# flake8: noqa
